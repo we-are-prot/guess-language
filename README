@@ -28,3 +28,7 @@ The primary entry points, and the return values, are as follows::
   guessLanguageName(txt) - Language name in English
   guessLanguageId(txt) - language ID
   guessLanguageInfo(txt) - tuple of (IANA code, id, name) 
+
+Note: I (Kent Johnson) am no longer using or maintaining this code. 
+Phi-Long DO maintains a Python 3 version (with support for lib3to2) at https://bitbucket.org/spirit/guess_language.
+guess_language has also been ported to JavaScript (https://github.com/wooorm/franc) and R (https://github.com/MangoTheCat/franc).
