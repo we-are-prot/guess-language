@@ -34,7 +34,7 @@ __all__ = 'guessLanguage guessLanguageName guessLanguageInfo guessLanguageTag gu
 
 import codecs, os, re, sys, unicodedata
 from collections import defaultdict
-from blocks import unicodeBlock
+from .blocks import unicodeBlock
 
 
 MIN_LENGTH = 20
@@ -293,7 +293,7 @@ def guessLanguage(text):
         return UNKNOWN
     
     if isinstance(text, str):
-        text = unicode(text, 'utf-8')
+        text = str(text, 'utf-8')
     
     text = normalize(text)
     
@@ -360,7 +360,7 @@ def find_runs(text):
     # always return basic latin if found more than 15%
     # and extended additional latin if over 10% (for Vietnamese)
     relevant_runs = []
-    for key, value in run_types.items():
+    for key, value in list(run_types.items()):
         pct = (value*100) / totalCount
         if pct >=40:
             relevant_runs.append(key)
@@ -451,10 +451,10 @@ def createOrderedModel(content):
     trigrams = defaultdict(int) # QHash<QString,int> 
     content = content.lower()
     
-    for i in xrange(0, len(content)-2):
+    for i in range(0, len(content)-2):
         trigrams[content[i:i+3]]+=1
 
-    return sorted(trigrams.keys(), key=lambda k: (-trigrams[k], k))
+    return sorted(list(trigrams.keys()), key=lambda k: (-trigrams[k], k))
 
 
 spRe = re.compile(r"\s\s", re.UNICODE)
@@ -474,12 +474,12 @@ def distance(model, knownModel):
 
 
 def _makeNonAlphaRe():
-    nonAlpha = [u'[^']
+    nonAlpha = ['[^']
     for i in range(sys.maxunicode):
-      c = unichr(i)
+      c = chr(i)
       if c.isalpha(): nonAlpha.append(c)
-    nonAlpha.append(u']')
-    nonAlpha = u"".join(nonAlpha)
+    nonAlpha.append(']')
+    nonAlpha = "".join(nonAlpha)
     return re.compile(nonAlpha)
 
 
